@@ -1,0 +1,43 @@
+<div style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
+  <h1 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">Weather Forecast Search</h1>
+
+  <div style="background: white; padding: 1.5rem; border: 1px solid #ddd; border-radius: 4px;">
+    <div style="margin-bottom: 2rem;">
+      <%= form_with url: search_forecasts_path(format: :turbo_stream), method: :get, data: { turbo_frame: "forecast_results" } do |f| %>
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.25rem; margin-bottom: 1rem;">Search by Address</h2>
+          
+          <div style="margin-bottom: 1rem;">
+            <%= f.label :street, "Street Address", style: "display: block; margin-bottom: 0.5rem;" %>
+            <%= f.text_field :street, style: "width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" %>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+              <%= f.label :city, "City", style: "display: block; margin-bottom: 0.5rem;" %>
+              <%= f.text_field :city, style: "width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-right: 1rem;" %>
+            </div>
+            <div>
+              <%= f.label :state, "State", style: "display: block; margin-bottom: 0.5rem;" %>
+              <%= f.text_field :state, style: "width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;  margin-right: 1rem;" %>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center;">
+          <%= f.submit "Get Forecast", style: "background: #2563eb; color: white; padding: 0.5rem 1.5rem; border: none; border-radius: 4px; cursor: pointer;", name: nil %>
+        </div>
+      <% end %>
+    </div>
+
+    <%= turbo_frame_tag "forecast_results" do %>
+      <% if @location && @forecast %>
+        <%= render partial: "forecasts/forecast", locals: { location: @location, forecast: @forecast } %>
+      <% else %>
+        <div style="text-align: center; color: #666;">
+          Enter a location above to see the weather forecast
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

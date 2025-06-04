@@ -1,0 +1,47 @@
+<% if location.nil? %>
+  <div style="text-align: center; color: #dc2626;">
+    Could not determine a location from the input. Please check your input and try again.
+  </div>
+<% else %>
+  <div style="background: white; padding: 1rem; border: 1px solid #ddd; border-radius: 4px;">
+    <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Weather Forecast for <%= location.to_s %></h2>
+
+    <div style="margin-bottom: 2rem;">
+      <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+        Currently <%= forecast.current_temp %>°F
+      </div>
+      <div style="color: #666;">
+        <%= forecast.conditions_for_day(0) %>
+      </div>
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <% (0..2).each do |day| %>
+            <th style="padding: 0.75rem; border-bottom: 2px solid #ddd; text-align: left;">
+              <%= day.zero? ? "Today" : Date.parse(forecast.date_for_day(day)).strftime("%A") %>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <% (0..2).each do |day| %>
+            <td style="padding: 0.75rem; border-bottom: 1px solid #ddd;">
+              <div style="margin-bottom: 0.5rem;">
+                High: <%= forecast.high_temp_for_day(day) %>°F
+              </div>
+              <div style="margin-bottom: 0.5rem;">
+                Low: <%= forecast.low_temp_for_day(day) %>°F
+              </div>
+              <div style="color: #666;">
+                <%= forecast.conditions_for_day(day) %>
+              </div>
+            </td>
+          <% end %>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<% end %> 
