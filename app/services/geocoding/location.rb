@@ -12,12 +12,14 @@ module Geocoding
     end
 
     def self.from_address(street: nil, city:, state: nil)
-      address = [street, city, state].compact.join(", ")
+      address = [ street, city, state ].compact.join(", ")
       results = Geocoder.search(address).first
-      
+
       return nil unless results
 
-      # If we don't get a zip code directly, try to get one from a reverse lookup
+      # A zip code is needed for the cache key.
+      # If a specific address is not input (e.g. just a city and state),
+      # find a zip code from a reverse lookup.
       zip_code = results.postal_code
       if zip_code.blank? && results.coordinates.present?
         reverse_results = Geocoder.search(results.coordinates).first
@@ -34,19 +36,11 @@ module Geocoding
       )
     end
 
-    def coordinates
-      [latitude, longitude]
-    end
-
-    def valid?
-      latitude.present? && longitude.present? && zip_code.present?
-    end
-
     def to_s
       if street.present?
-        [street, city, state, zip_code].compact.join(", ")
+        [ street, city, state, zip_code ].compact.join(", ")
       else
-        [city, state, zip_code].compact.join(", ")
+        [ city, state, zip_code ].compact.join(", ")
       end
     end
   end

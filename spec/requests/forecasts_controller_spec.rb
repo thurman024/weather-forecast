@@ -42,11 +42,14 @@ RSpec.describe "Forecasts", type: :request do
         allow(Weather::Forecast).to receive(:for_location)
           .with(mock_location)
           .and_return(mock_forecast)
+
+        allow(mock_forecast).to receive(:error?).and_return(false)
+        allow(mock_forecast).to receive(:fresh?).and_return(true)
       end
 
       it 'returns a successful turbo stream response' do
         get search_forecasts_path, params: search_params, as: :turbo_stream
-        
+
         expect(response).to have_http_status(:success)
       end
     end
@@ -60,7 +63,7 @@ RSpec.describe "Forecasts", type: :request do
 
       it 'returns a turbo stream response with empty forecast' do
         get search_forecasts_path, params: search_params, as: :turbo_stream
-        
+
         expect(response).to have_http_status(:success)
       end
     end

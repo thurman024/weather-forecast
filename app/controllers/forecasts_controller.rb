@@ -8,8 +8,8 @@ class ForecastsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.update("forecast_results", 
-          partial: "forecasts/forecast", 
+        render turbo_stream: turbo_stream.update("forecast_results",
+          partial: "forecasts/forecast",
           locals: { location: @location, forecast: @forecast }
         )
       end

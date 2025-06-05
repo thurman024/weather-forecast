@@ -1,12 +1,12 @@
 module Weather
   class Forecast
     # In a production app, this would be stored in an environment variable or rails credentials
-    WEATHER_API_KEY = '11bf08a681e14745a73214852250406'
-    BASE_URL = 'https://api.weatherapi.com/v1'
+    WEATHER_API_KEY = "11bf08a681e14745a73214852250406"
+    BASE_URL = "https://api.weatherapi.com/v1"
     DAYS = 3
     CACHE_EXPIRY = 30.minutes
 
-    attr_reader :zip_code, :data, :fetched_at, :fresh
+    attr_reader :zip_code, :data, :fresh
 
     def initialize(zip_code:, data:, fresh: false)
       @zip_code = zip_code
@@ -49,6 +49,22 @@ module Weather
 
     def date_for_day(n)
       data["forecast"]["forecastday"][n]["date"]
+    end
+
+    def fresh?
+      fresh
+    end
+
+    def fetched_at
+      DateTime.parse(data["current"]["last_updated"])
+    end
+
+    def success?
+      data["current"].is_a?(Hash) && data["forecast"].is_a?(Hash)
+    end
+
+    def error?
+      !success?
     end
   end
 end

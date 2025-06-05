@@ -1,6 +1,6 @@
-<% if location.nil? %>
+<% if forecast.nil? || forecast.error? %>
   <div style="text-align: center; color: #dc2626;">
-    Could not determine a location from the input. Please check your input and try again.
+    Error fetching the weather forecast. Please check your input or try a more specific location.
   </div>
 <% else %>
   <div style="background: white; padding: 1rem; border: 1px solid #ddd; border-radius: 4px;">
@@ -41,6 +41,15 @@
             </td>
           <% end %>
         </tr>
+        <% unless forecast.fresh? %>
+          <tr>
+            <td colspan="3" style="padding: 0.75rem; border-bottom: 1px solid #ddd;">
+              <div style="color: #666;">
+                Last updated: <%= forecast.fetched_at.strftime("%Y-%m-%d %H:%M") %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
       </tbody>
     </table>
   </div>

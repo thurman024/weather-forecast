@@ -25,7 +25,7 @@ RSpec.describe Weather::Forecast do
         .and_yield
 
       forecast = described_class.for_location(location)
-      
+
       expect(forecast).to be_a(described_class)
       expect(forecast.zip_code).to eq(zip_code)
       expect(forecast.data).to eq(weather_data)
@@ -38,7 +38,7 @@ RSpec.describe Weather::Forecast do
         .and_return(weather_data)
 
       forecast = described_class.for_location(location)
-      
+
       expect(forecast).to be_a(described_class)
       expect(forecast.fresh).to be false
       expect(described_class).not_to have_received(:fetch_forecast)
