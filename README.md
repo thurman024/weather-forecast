@@ -1,24 +1,41 @@
-# README
+# Weather Forecast
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A weather forecast application.
 
-Things you may want to cover:
+## Dependencies
 
-* Ruby version
+* Ruby version: 3.3.5
+* Rails version: 8.0.2
 
-* System dependencies
+### Setup
 
-* Configuration
+1. Clone the repository:
+```bash
+git clone https://github.com/thurman024/weather-forecast.git
+cd weather-forecast
+```
 
-* Database creation
+2. Install dependencies:
+```bash
+bundle install
+```
 
-* Database initialization
+3. Start the server:
+```bash
+rails server
+```
 
-* How to run the test suite
+The application will be available at `http://localhost:3000`
 
-* Services (job queues, cache servers, search engines, etc.)
+## Usage
 
-* Deployment instructions
+Enter a location to search for the weather forecast. A full address is not required. Location lookup is performed using a free service from the [geocoder gem](https://github.com/alexreisner/geocoder). The first result for the provided search params will be used. If the desired result is not returned, try entering more specific search params.
 
-* ...
+Weather forecasts are provided by [WeatherAPI](https://www.weatherapi.com/docs/). Data is cached by zip code for a duration of 30 minutes.
+
+## Specs
+
+To run the Rspec test suite:
+```bash
+bundle exec rspec
+```
